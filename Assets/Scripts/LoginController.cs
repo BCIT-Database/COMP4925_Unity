@@ -59,7 +59,7 @@ public class LoginController : MonoBehaviour
             {
                 Debug.Log("User logged in successfully!");
                 GameController.Instance.Login(username);
-                SceneManager.LoadScene("Game Scene"); // Replace with your game scene name
+                SceneManager.LoadScene("Start Scene"); // Replace with your game scene name
             }
             else
             {
