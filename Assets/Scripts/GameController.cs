@@ -47,7 +47,7 @@ public class GameController : MonoBehaviour
         username = "";
         currentLevel = 1;
         score = 0;
-        SceneManager.LoadScene("Login Scene");
+        SceneManager.LoadScene("Login  Scene");
     }
 
     public void UpdateGameProgress(int newLevel, int newScore)
@@ -56,6 +56,17 @@ public class GameController : MonoBehaviour
         score = newScore;
         Debug.Log($"Game progress updated: Level {newLevel}, Score {newScore}");
     }
+    public void LoadScene(string sceneName)
+    {
+        if (string.IsNullOrEmpty(sceneName))
+        {
+            Debug.LogError("Scene name is null or empty!");
+            return;
+        }
 
- 
+        Debug.Log($"Loading scene: {sceneName}");
+        SceneManager.LoadScene(sceneName);
+    }
+
+
 }
