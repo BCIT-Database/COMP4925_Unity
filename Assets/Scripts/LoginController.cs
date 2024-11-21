@@ -25,6 +25,11 @@ public class LoginController : MonoBehaviour
         loginButton.onClick.AddListener(OnLoginClicked);
     }
 
+    public void OnStartGameButtonClicked()
+    {
+        SceneManager.LoadScene("Game Scene");
+    }
+
     public void OnLoginClicked()
     {
         if (isProcessing) return;
@@ -69,6 +74,8 @@ public class LoginController : MonoBehaviour
 
         isProcessing = false;
     }
+
+
 
     private void DisplayError(string message)
     {

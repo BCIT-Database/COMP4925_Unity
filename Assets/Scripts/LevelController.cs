@@ -6,8 +6,9 @@ public class LevelController : MonoBehaviour
 {
     public void LoadLevel()
     {
-        StartCoroutine(LoadAfterWait("New Scene", 3.0f));
+        StartCoroutine(LoadAfterWait("Start Scene", 1.0f));
     }
+
     IEnumerator LoadAfterWait(string scene, float delay)
     {
         yield return new WaitForSeconds(delay);

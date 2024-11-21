@@ -56,4 +56,6 @@ public class GameController : MonoBehaviour
         score = newScore;
         Debug.Log($"Game progress updated: Level {newLevel}, Score {newScore}");
     }
+
+ 
 }
