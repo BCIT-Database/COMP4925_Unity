@@ -2,16 +2,19 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] float moveSpeed = .01f;
-    [SerializeField] float jumpForce = 5f;
-    [SerializeField] LayerMask groundLayer;
-    private Rigidbody2D rb;
-    private bool isGrounded;
+    [SerializeField] float moveSpeed = 1.0f;
+
+    Animator animator;
+
+    private void Awake()
+    {
+        animator = GetComponent<Animator>();
+
+    }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        rb = GetComponent<Rigidbody2D>();
 
     }
 
@@ -19,7 +22,6 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         Move();
-        Jump();
     }
 
     private void Move()
@@ -28,25 +30,20 @@ public class PlayerController : MonoBehaviour
         float vertical = Input.GetAxis("Vertical");
 
         transform.Translate(moveSpeed * horizontal * Time.deltaTime, moveSpeed * vertical * Time.deltaTime, 0);
-    }
 
-    private void Jump()
-    {
-      
-        if (Input.GetButtonDown("Jump") && IsGrounded())
+        bool fire1 = Input.GetButtonDown("Fire1");
+        if (fire1)
         {
-            rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce); 
+            Debug.Log("Pressed: " + fire1);
         }
-    }
-    private bool IsGrounded()
-    {
-        
-        Vector2 position = transform.position;
-        Vector2 direction = Vector2.down;
-        float distance = 0.1f;
 
-        RaycastHit2D hit = Physics2D.Raycast(position, direction, distance, groundLayer);
-        return hit.collider != null; // ���� �浹 ���̸� true
+        //Input.GetKey(KeyCode.);
+        animator.SetBool("IsWalkingStraight", horizontal > 0);
+        animator.SetBool("IsWalkingBack", horizontal < 0);
+
+
+
     }
+
 
 }
