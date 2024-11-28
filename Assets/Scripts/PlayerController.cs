@@ -32,7 +32,7 @@ public class PlayerController : MonoBehaviour
 
     private void Jump()
     {
-        // �����̽��ٸ� ������ ���� ����
+      
         if (Input.GetButtonDown("Jump") && IsGrounded())
         {
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce); 
@@ -40,7 +40,7 @@ public class PlayerController : MonoBehaviour
     }
     private bool IsGrounded()
     {
-        // ���� ��Ҵ��� Ȯ�� (�浹 �˻�)
+        
         Vector2 position = transform.position;
         Vector2 direction = Vector2.down;
         float distance = 0.1f;
