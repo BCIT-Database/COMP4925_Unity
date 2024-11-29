@@ -3,11 +3,16 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] float moveSpeed = 1.0f;
-
+    [SerializeField] private float jumpForce = 5.0f;
+    [SerializeField] private LayerMask groundLayer;
+    
+    private Rigidbody2D rb;
     Animator animator;
+    private bool isGrounded;
 
     private void Awake()
     {
+        rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
 
     }
@@ -22,6 +27,7 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         Move();
+        Jump();
     }
 
     private void Move()
@@ -45,6 +51,60 @@ public class PlayerController : MonoBehaviour
 
 
 
+    }
+
+    private void Jump()
+    {
+
+        bool jump = Input.GetButtonDown("Jump");
+        if (jump && isGrounded)
+        {
+            rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce); 
+
+            float horizontal = Input.GetAxis("Horizontal");
+            if (horizontal > 0)
+            {
+                animator.SetBool("IsJumpingRight", true);
+                animator.SetBool("IsJumpingLeft", false);
+            }
+            else if (horizontal < 0)
+            {
+                animator.SetBool("IsJumpingRight", false);
+                animator.SetBool("IsJumpingLeft", true);
+            }
+            else
+            {
+               
+                animator.SetBool("IsJumpingRight", true);
+                animator.SetBool("IsJumpingLeft", false);
+            }
+        }
+        else
+        {
+            
+            animator.SetBool("IsJumpingRight", false);
+            animator.SetBool("IsJumpingLeft", false);
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+      
+        if (((1 << collision.gameObject.layer) & groundLayer) != 0)
+        {
+            isGrounded = true; 
+            //Debug.Log("Player is on the ground");
+        }
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        
+        if (((1 << collision.gameObject.layer) & groundLayer) != 0)
+        {
+            isGrounded = false; 
+            //Debug.Log("Player left the ground");
+        }
     }
 
 
