@@ -68,5 +68,14 @@ public class GameController : MonoBehaviour
         SceneManager.LoadScene(sceneName);
     }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        // Remove the posion apple
+        if (collision.CompareTag("Finish"))
+        {
+            Destroy(collision.gameObject); 
+        }
+    }
+
 
 }
