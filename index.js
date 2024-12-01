@@ -13,6 +13,12 @@ const port = 3000;
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+app.use(express.static(path.join(__dirname, "build")));
+
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "build", "index.html"));
+});
+
 (async function initializeDatabase() {
   try {
     await createDatabaseAndTables();
@@ -21,10 +27,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
     process.exit(1);
   }
 })();
-
-app.get("/", (req, res) => {
-  res.send("Hello World!");
-});
 
 app.post("/register", async (req, res) => {
   const { email, username, password } = req.body;
