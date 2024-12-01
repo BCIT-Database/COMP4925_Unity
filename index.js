@@ -2,6 +2,7 @@ const express = require("express");
 const bcrypt = require("bcrypt");
 const bodyParser = require("body-parser");
 const path = require("path");
+const expressStaticGzip = require("express-static-gzip");
 require("dotenv").config();
 
 const { database } = require("./databaseConnection");
@@ -13,7 +14,45 @@ const port = 3000 || process.env.PORT;
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use(express.static(path.join(__dirname, "build")));
+// Ensure that WebAssembly files and Brotli files have the correct content type
+app.use((req, res, next) => {
+  if (req.url.endsWith(".wasm")) {
+    res.setHeader("Content-Type", "application/wasm"); // For .wasm files
+  }
+  if (req.url.endsWith(".wasm.br")) {
+    res.setHeader("Content-Type", "application/wasm"); // For Brotli compressed .wasm files
+    res.setHeader("Content-Encoding", "br"); // Ensure Brotli is specified
+  }
+  next();
+});
+
+// Serve static files with compression support
+app.use(
+  expressStaticGzip(path.join(__dirname, "build"), {
+    enableBrotli: true, // Enable Brotli compression support
+    orderPreference: ["br", "gz"], // Prefer Brotli compression if available
+    customCompressions: [
+      {
+        encodingName: "gzip",
+        fileExtension: "gz", // Apply gzip compression to .gz files
+      },
+      {
+        encodingName: "br",
+        fileExtension: "br", // Apply Brotli compression to .br files
+      },
+    ],
+    setHeaders: function (res, path) {
+      // Add Content-Encoding: br for .br files
+      if (path.endsWith(".br")) {
+        res.set("Content-Encoding", "br");
+      }
+      // Add Content-Encoding: gzip for .gz files
+      if (path.endsWith(".gz")) {
+        res.set("Content-Encoding", "gzip");
+      }
+    },
+  })
+);
 
 // Root route to serve the main HTML file
 app.get("/", (req, res) => {
