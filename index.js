@@ -24,15 +24,12 @@ app.get("/", (req, res) => {
 async function startServer() {
   let connection;
   try {
-    // Get a connection from the pool
     connection = await database.getConnection();
-
-    // Test the connection with a simple query
     await connection.query("SELECT 1");
     console.log("Database connection successful!");
 
     // 데이터베이스 초기화
-    await createDatabaseAndTables(connection);
+    await createDatabaseAndTables();
     console.log("Database and tables are ready.");
 
     // 서버 시작
@@ -41,10 +38,9 @@ async function startServer() {
     });
   } catch (err) {
     console.error("Error initializing the database:", err.message);
-    process.exit(1); // 오류 발생 시 종료
+    process.exit(1);
   } finally {
     if (connection) {
-      // 연결을 반환 (finally 블록에서 항상 호출)
       connection.release();
     }
   }
