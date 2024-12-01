@@ -2,6 +2,7 @@
 const express = require("express");
 const bcrypt = require("bcrypt");
 const bodyParser = require("body-parser");
+const path = require("path");
 require("dotenv").config();
 
 const { database } = require("./databaseConnection");
