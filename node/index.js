@@ -28,7 +28,7 @@ app.use((req, res, next) => {
 
 // Serve static files with compression support
 app.use(
-  expressStaticGzip(path.join(__dirname, "build"), {
+  expressStaticGzip(path.join(__dirname, "../build"), {
     enableBrotli: true, // Enable Brotli compression support
     orderPreference: ["br", "gz"], // Prefer Brotli compression if available
     customCompressions: [
@@ -63,7 +63,7 @@ app.use((req, res, next) => {
 
 // Root route to serve the main HTML file
 app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "build", "index.html"));
+  res.sendFile(path.join(__dirname, "../build", "index.html"));
 });
 
 // Improved database initialization
