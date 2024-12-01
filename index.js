@@ -8,7 +8,7 @@ const { database } = require("./databaseConnection");
 const createDatabaseAndTables = require("./initializeDatabase");
 
 const app = express();
-const port = 3000;
+const port = 3000 || process.env.PORT;
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
