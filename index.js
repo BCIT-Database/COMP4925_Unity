@@ -1,4 +1,3 @@
-// index.js
 const express = require("express");
 const bcrypt = require("bcrypt");
 const bodyParser = require("body-parser");
@@ -16,19 +15,31 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(express.static(path.join(__dirname, "build")));
 
+// Root route to serve the main HTML file
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "build", "index.html"));
 });
 
-(async function initializeDatabase() {
+// Improved database initialization
+async function startServer() {
   try {
+    // Initialize the database and tables before starting the server
     await createDatabaseAndTables();
-  } catch (err) {
-    console.error("Could not initialize the database:", err.message);
-    process.exit(1);
-  }
-})();
+    console.log("Database and tables are ready.");
 
+    // Start the server after the database is ready
+    app.listen(port, () => {
+      console.log(`Server is running on http://localhost:${port}`);
+    });
+  } catch (err) {
+    console.error("Error initializing the database:", err.message);
+    process.exit(1); // Exit if database initialization fails
+  }
+}
+
+startServer();
+
+// Register endpoint
 app.post("/register", async (req, res) => {
   const { email, username, password } = req.body;
 
@@ -63,6 +74,7 @@ app.post("/register", async (req, res) => {
   }
 });
 
+// Login endpoint
 app.post("/login", async (req, res) => {
   const { username, password } = req.body;
 
@@ -90,11 +102,7 @@ app.post("/login", async (req, res) => {
 
     res.status(200).json({ message: "Login successful!" });
   } catch (err) {
-    console.error(err.message);
+    console.error("Error during login:", err.message);
     res.status(500).json({ error: "Internal server error." });
   }
-});
-
-app.listen(port, () => {
-  console.log(`Server is running on http://localhost:${port}`);
 });
