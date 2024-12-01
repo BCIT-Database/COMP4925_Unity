@@ -22,18 +22,31 @@ app.get("/", (req, res) => {
 
 // Improved database initialization
 async function startServer() {
+  let connection;
   try {
-    // Initialize the database and tables before starting the server
-    await createDatabaseAndTables();
+    // Get a connection from the pool
+    connection = await database.getConnection();
+
+    // Test the connection with a simple query
+    await connection.query("SELECT 1");
+    console.log("Database connection successful!");
+
+    // 데이터베이스 초기화
+    await createDatabaseAndTables(connection);
     console.log("Database and tables are ready.");
 
-    // Start the server after the database is ready
+    // 서버 시작
     app.listen(port, () => {
       console.log(`Server is running on http://localhost:${port}`);
     });
   } catch (err) {
     console.error("Error initializing the database:", err.message);
-    process.exit(1); // Exit if database initialization fails
+    process.exit(1); // 오류 발생 시 종료
+  } finally {
+    if (connection) {
+      // 연결을 반환 (finally 블록에서 항상 호출)
+      connection.release();
+    }
   }
 }
 
