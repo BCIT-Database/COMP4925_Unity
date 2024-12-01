@@ -85,7 +85,7 @@ public class RegisterController : MonoBehaviour
             {
                 Debug.Log("User registered successfully!");
                 GameController.Instance.Login(username);
-                SceneManager.LoadScene("Login Scene");
+                SceneManager.LoadScene("Login  Scene");
             }
             else
             {
