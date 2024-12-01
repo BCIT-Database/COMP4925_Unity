@@ -82,7 +82,7 @@ public class GameController : MonoBehaviour
     private void EndGame()
     {
         Debug.Log("Game Over! Showing Game Over Scene.");
-        SceneManager.LoadScene("GameOverScene"); 
+        SceneManager.LoadScene("Game Ove rScene"); 
     }
 
 
@@ -99,7 +99,7 @@ public class GameController : MonoBehaviour
         username = "";
         currentLevel = 1;
         score = 0;
-        SceneManager.LoadScene("Login  Scene");
+        SceneManager.LoadScene("Login Scene");
     }
 
     public void UpdateGameProgress(int newLevel, int newScore)
