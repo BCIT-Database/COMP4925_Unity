@@ -38,10 +38,14 @@ public class PoisonAppleComponent : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player")) 
+        if (collision.CompareTag("Player"))
         {
-            FindObjectOfType<ScoreController>().SubtractScore(damageValue); 
-            Destroy(gameObject); // 독사과 제거
+            FindObjectOfType<ScoreController>().SubtractScore(damageValue);
+            Destroy(gameObject); 
+        }
+        else if (collision.CompareTag("Finish")) 
+        {
+            Destroy(gameObject); 
         }
     }
 }
