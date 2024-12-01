@@ -54,6 +54,13 @@ app.use(
   })
 );
 
+app.use((req, res, next) => {
+  if (req.headers["x-forwarded-proto"] !== "https") {
+    return res.redirect(301, "https://" + req.headers.host + req.url);
+  }
+  next();
+});
+
 // Root route to serve the main HTML file
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "build", "index.html"));
