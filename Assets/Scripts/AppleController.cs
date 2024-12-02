@@ -21,8 +21,18 @@ public class AppleController : MonoBehaviour
     {
         if (collision.CompareTag("Player")) // When collide with Player
         {
-            Object.FindFirstObjectByType<ScoreController>().AddScore(scoreValue);  // Add score
-            Destroy(gameObject); // Remove apple 
+            // Find the ScoreController in the scene
+            ScoreController scoreController = Object.FindFirstObjectByType<ScoreController>();
+
+            if (scoreController != null)
+            {
+                scoreController.AddScore(scoreValue); // Add score
+                Destroy(gameObject); // Remove apple
+            }
+            else
+            {
+                Debug.LogError("ScoreController not found in the scene!");
+            }
         }
     }
 }
