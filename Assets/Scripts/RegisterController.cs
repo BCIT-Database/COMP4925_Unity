@@ -13,6 +13,7 @@ public class RegisterController : MonoBehaviour
     [SerializeField] TMP_InputField confirmPasswordInput;
     [SerializeField] TMP_Text errorMessage;
     [SerializeField] Button registerButton;
+    [SerializeField] Button loginLinkButton;
 
     private bool isProcessing = false;
 
@@ -25,6 +26,7 @@ public class RegisterController : MonoBehaviour
         }
 
         registerButton.onClick.AddListener(OnRegisterClicked);
+        loginLinkButton.onClick.AddListener(OnLoginLinkClicked);
     }
 
     public void OnRegisterClicked()
@@ -68,6 +70,11 @@ public class RegisterController : MonoBehaviour
 
         errorMessage.text = ""; // Clear any previous error messages
         StartCoroutine(RegisterUser(email, username, password));
+    }
+
+    private void OnLoginLinkClicked()
+    {
+        SceneManager.LoadScene("Login Scene");
     }
 
     private IEnumerator RegisterUser(string email, string username, string password)

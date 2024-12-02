@@ -37,10 +37,10 @@ public class GameController : MonoBehaviour
         }
     }
 
-    private void Start()
+    public void Start()
     {
-        levelController = GetComponent<LevelController>();
-        scoreController = GetComponent<ScoreController>();
+        levelController = GameObject.Find("LevelManager").GetComponent<LevelController>();
+        scoreController = GameObject.Find("ScoreManager").GetComponent<ScoreController>();
 
         if (levelController != null)
         {
@@ -58,7 +58,7 @@ public class GameController : MonoBehaviour
         }
     }
 
-    private void StartGame()
+    public void StartGame()
     {
         Debug.Log("Game started!");
         levelController.StartLevel(1); 
