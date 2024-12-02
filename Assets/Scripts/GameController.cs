@@ -21,8 +21,8 @@ public class GameController : MonoBehaviour
     public int currentLevel = 1;
     public int score = 0;
 
-    private LevelController levelController;
-    private ScoreController scoreController;
+    public LevelController levelController; 
+    public ScoreController scoreController;
 
     public int targetScore = 30;
 
@@ -41,27 +41,40 @@ public class GameController : MonoBehaviour
 
     private void Start()
     {
-        levelController = GetComponent<LevelController>();
-        scoreController = GetComponent<ScoreController>();
+        // 현재 씬이 Register 또는 Login인 경우 게임 관련 초기화 생략
+        string currentScene = SceneManager.GetActiveScene().name;
+        if (currentScene == "Register Scene" || currentScene == "Login Scene")
+        {
+            Debug.Log("Register or Login Scene detected. Skipping game-related initialization.");
+            return;
+        }
 
-        if (levelController != null)
+        // 게임 관련 초기화
+        InitializeGame();
+    }
+
+    private void InitializeGame()
+    {
+        // LevelController 초기화
+        if (levelController == null)
+        {
+            Debug.LogError("LevelController is not assigned in the Inspector!");
+        }
+        else
         {
             levelController.LevelCompleted += OnLevelComplete;
             levelController.GameOver += OnGameOver;
-            levelController.StartLevel(1); 
-        }
-        else
-        {
-            Debug.LogError("LevelController not found on GameManager!");
+            levelController.StartLevel(1);
         }
 
-        if (scoreController != null)
+        // ScoreController 초기화
+        if (scoreController == null)
         {
-            scoreController.OnScoreChanged += HandleScoreChanged; 
+            Debug.LogError("ScoreController is not assigned in the Inspector!");
         }
         else
         {
-            Debug.LogError("ScoreController not found!");
+            scoreController.OnScoreChanged += HandleScoreChanged;
         }
     }
 
