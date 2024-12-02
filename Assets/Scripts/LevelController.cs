@@ -3,7 +3,8 @@ using UnityEngine;
 
 public class LevelController : MonoBehaviour
 {
-    public TextMeshProUGUI timerText; 
+    public TextMeshProUGUI timerText;
+    public GameObject LevelCompletePanel;
     public float[] levelTimeLimits = { 20f, 10f, 5f };
 
     private int currentLevel = 1;
@@ -11,7 +12,10 @@ public class LevelController : MonoBehaviour
     private bool isTimerActive = false;
 
     public delegate void LevelCompletedEvent(int level); 
-    public event LevelCompletedEvent LevelCompleted; 
+    public event LevelCompletedEvent LevelCompleted;
+
+    public delegate void GameOverEvent();
+    public event GameOverEvent GameOver;
 
     private void Update()
     {
@@ -28,6 +32,7 @@ public class LevelController : MonoBehaviour
             currentLevel = level;
             remainingTime = levelTimeLimits[level - 1];
             isTimerActive = true;
+            LevelCompletePanel.SetActive(false);
 
             Debug.Log($"Level {level} started with {remainingTime} seconds.");
         }
@@ -48,7 +53,7 @@ public class LevelController : MonoBehaviour
         {
             remainingTime = 0;
             isTimerActive = false;
-            CompleteLevel(); 
+            HandleGameOver(); ; 
         }
     }
 
@@ -57,13 +62,38 @@ public class LevelController : MonoBehaviour
         if (timerText != null)
         {
             int seconds = Mathf.FloorToInt(remainingTime % 60);
-            timerText.text = $"Remaininig Time: {seconds:00} Seconds";
+            timerText.text = $"Remaininig Time: {seconds:00}";
         }
     }
 
-    private void CompleteLevel() 
+    private void HandleGameOver()
+    {
+        Debug.Log("Time's up! Game Over!");
+        GameOver?.Invoke();
+    }
+
+    public void CompleteLevel() 
     {
         Debug.Log($"Level {currentLevel} completed!");
+        LevelCompletePanel.SetActive(true);
         LevelCompleted?.Invoke(currentLevel); 
+    }
+    public void NextLevel()
+    {
+        if (currentLevel < levelTimeLimits.Length)
+        {
+            FindObjectOfType<ScoreController>().ResetScore();
+            StartLevel(currentLevel + 1); 
+        }
+        else
+        {
+            Debug.Log("All levels completed!");
+         
+        }
+    }
+
+    public int GetCurrentLevel()
+    {
+        return currentLevel;
     }
 }

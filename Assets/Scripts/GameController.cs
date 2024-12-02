@@ -24,6 +24,8 @@ public class GameController : MonoBehaviour
     private LevelController levelController;
     private ScoreController scoreController;
 
+    public int targetScore = 30;
+
     private void Awake()
     {
         if (instance == null)
@@ -44,17 +46,22 @@ public class GameController : MonoBehaviour
 
         if (levelController != null)
         {
-            levelController.LevelCompleted += OnLevelComplete; // 레벨 완료 이벤트 구독
-            levelController.StartLevel(1); // 첫 번째 레벨 시작
+            levelController.LevelCompleted += OnLevelComplete;
+            levelController.GameOver += OnGameOver;
+            levelController.StartLevel(1); 
         }
         else
         {
             Debug.LogError("LevelController not found on GameManager!");
         }
 
-        if (scoreController == null)
+        if (scoreController != null)
         {
-            Debug.LogError("ScoreController not found on GameManager!");
+            scoreController.OnScoreChanged += HandleScoreChanged; 
+        }
+        else
+        {
+            Debug.LogError("ScoreController not found!");
         }
     }
 
@@ -79,10 +86,30 @@ public class GameController : MonoBehaviour
         }
     }
 
+    private void OnGameOver()
+    {
+        Debug.Log("Game Over! Returning to the Game Over screen.");
+        EndGame();
+    }
+
+    private void HandleScoreChanged(int currentScore)
+    {
+        Debug.Log($"Current Score: {currentScore}");
+
+        if (currentScore >= targetScore) 
+        {
+            levelController.CompleteLevel();
+        }
+        else if (currentScore < 0) 
+        {
+            EndGame();
+        }
+    }
+
     private void EndGame()
     {
         Debug.Log("Game Over! Showing Game Over Scene.");
-        SceneManager.LoadScene("GameOverScene"); 
+        SceneManager.LoadScene("Game Over Scene"); 
     }
 
 

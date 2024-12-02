@@ -1,6 +1,4 @@
 using UnityEngine;
-using UnityEngine.InputSystem.iOS;
-using UnityEngine.SceneManagement;
 
 public class SceneController : MonoBehaviour
 
