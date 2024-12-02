@@ -14,6 +14,7 @@ public class RegisterController : MonoBehaviour
     [SerializeField] TMP_Text errorMessage;
     [SerializeField] Button registerButton;
     [SerializeField] Button loginLinkButton;
+    [SerializeField] Button loginLinkButton;
 
     private bool isProcessing = false;
 
@@ -26,6 +27,7 @@ public class RegisterController : MonoBehaviour
         }
 
         registerButton.onClick.AddListener(OnRegisterClicked);
+        loginLinkButton.onClick.AddListener(OnLoginLinkClicked);
         loginLinkButton.onClick.AddListener(OnLoginLinkClicked);
     }
 
@@ -77,6 +79,21 @@ public class RegisterController : MonoBehaviour
         SceneManager.LoadScene("Login Scene");
     }
 
+<<<<<<< HEAD
+    private void OnLoginLinkClicked()
+    {
+        SceneManager.LoadScene("Login Scene");
+    }
+
+=======
+    public void OnLoginLinkClicked()
+    {
+        
+        SceneManager.LoadScene("Login Scene");
+    }
+
+
+>>>>>>> fbeec82a59a5466c52e8ab7115c5d5d3d518c350
     private IEnumerator RegisterUser(string email, string username, string password)
     {
         WWWForm form = new WWWForm();

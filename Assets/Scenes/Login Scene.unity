@@ -153,8 +153,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 254}
-  m_SizeDelta: {x: 699.29, y: 223.94}
+  m_AnchoredPosition: {x: 17, y: 205}
+  m_SizeDelta: {x: 636.95, y: 77.67}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &197156877
 MonoBehaviour:
@@ -203,8 +203,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 100
-  m_fontSizeBase: 100
+  m_fontSize: 40
+  m_fontSizeBase: 40
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -241,7 +241,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: -21.581757, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -778,6 +778,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timerText: {fileID: 0}
+<<<<<<< HEAD
+=======
+  LevelCompletePanel: {fileID: 0}
+>>>>>>> fbeec82a59a5466c52e8ab7115c5d5d3d518c350
   levelTimeLimits:
   - 20
   - 10
@@ -1637,6 +1641,7 @@ MonoBehaviour:
   username: 
   currentLevel: 1
   score: 0
+  targetScore: 30
 --- !u!4 &1628422927
 Transform:
   m_ObjectHideFlags: 0
@@ -1782,8 +1787,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 17, y: -254}
-  m_SizeDelta: {x: 387.21, y: 87.98}
+  m_AnchoredPosition: {x: 17, y: -157}
+  m_SizeDelta: {x: 368.03, y: 54.41}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1930823961
 GameObject:

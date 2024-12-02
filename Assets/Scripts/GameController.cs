@@ -21,8 +21,10 @@ public class GameController : MonoBehaviour
     public int currentLevel = 1;
     public int score = 0;
 
-    private LevelController levelController;
-    private ScoreController scoreController;
+    public LevelController levelController; 
+    public ScoreController scoreController;
+
+    public int targetScore = 30;
 
     private void Awake()
     {
@@ -39,22 +41,40 @@ public class GameController : MonoBehaviour
 
     public void Start()
     {
-        levelController = GameObject.Find("LevelManager").GetComponent<LevelController>();
-        scoreController = GameObject.Find("ScoreManager").GetComponent<ScoreController>();
-
-        if (levelController != null)
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Register ï¿½Ç´ï¿½ Loginï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê±ï¿½È­ ï¿½ï¿½ï¿½ï¿½
+        string currentScene = SceneManager.GetActiveScene().name;
+        if (currentScene == "Register Scene" || currentScene == "Login Scene")
         {
-            levelController.LevelCompleted += OnLevelComplete; // ·¹º§ ¿Ï·á ÀÌº¥Æ® ±¸µ¶
-            levelController.StartLevel(1); // Ã¹ ¹øÂ° ·¹º§ ½ÃÀÛ
+            Debug.Log("Register or Login Scene detected. Skipping game-related initialization.");
+            return;
+        }
+
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê±ï¿½È­
+        InitializeGame();
+    }
+
+    private void InitializeGame()
+    {
+        // LevelController ï¿½Ê±ï¿½È­
+        if (levelController == null)
+        {
+            Debug.LogError("LevelController is not assigned in the Inspector!");
         }
         else
         {
-            Debug.LogError("LevelController not found on GameManager!");
+            levelController.LevelCompleted += OnLevelComplete;
+            levelController.GameOver += OnGameOver;
+            levelController.StartLevel(1);
         }
 
+        // ScoreController ï¿½Ê±ï¿½È­
         if (scoreController == null)
         {
-            Debug.LogError("ScoreController not found on GameManager!");
+            Debug.LogError("ScoreController is not assigned in the Inspector!");
+        }
+        else
+        {
+            scoreController.OnScoreChanged += HandleScoreChanged;
         }
     }
 
@@ -79,10 +99,30 @@ public class GameController : MonoBehaviour
         }
     }
 
+    private void OnGameOver()
+    {
+        Debug.Log("Game Over! Returning to the Game Over screen.");
+        EndGame();
+    }
+
+    private void HandleScoreChanged(int currentScore)
+    {
+        Debug.Log($"Current Score: {currentScore}");
+
+        if (currentScore >= targetScore) 
+        {
+            levelController.CompleteLevel();
+        }
+        else if (currentScore < 0) 
+        {
+            EndGame();
+        }
+    }
+
     private void EndGame()
     {
         Debug.Log("Game Over! Showing Game Over Scene.");
-        SceneManager.LoadScene("Game Ove rScene"); 
+        SceneManager.LoadScene("Game Over Scene"); 
     }
 
 

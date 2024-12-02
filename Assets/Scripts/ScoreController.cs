@@ -5,25 +5,35 @@ public class ScoreController : MonoBehaviour
 {
     public TextMeshProUGUI scoreText;
     //public GameObject gameOverPanel;
-    private int score = 0; 
+    private int score = 0;
+
+    public delegate void ScoreChangedEvent(int newScore); 
+    public event ScoreChangedEvent OnScoreChanged;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        UpdateScoreText();
-        //gameOverPanel.SetActive(false);
-    }
+        // Register 씬에서는 점수 텍스트를 업데이트하지 않음
+        if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "Register Scene")
+        {
+            Debug.Log("ScoreController: Register scene detected. Skipping score initialization.");
+            return;
+        }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        if (scoreText == null)
+        {
+            Debug.LogError("ScoreText is not assigned in the Inspector!");
+            return;
+        }
+
+        UpdateScoreText();
     }
 
     public void AddScore(int value)
     {
-        score += value; // increase the score
-        UpdateScoreText(); // Update the text
+        score += value; 
+        UpdateScoreText(); 
+        OnScoreChanged?.Invoke(score); 
     }
 
     public void SubtractScore(int value)
@@ -40,6 +50,12 @@ public class ScoreController : MonoBehaviour
     private void UpdateScoreText()
     {
         scoreText.text = "Score: " + score; // display the score
+    }
+
+    public void ResetScore()
+    {
+        score = 0; 
+        UpdateScoreText();
     }
 
     private void GameOver()
