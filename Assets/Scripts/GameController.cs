@@ -126,7 +126,7 @@ public class GameController : MonoBehaviour
         username = "";
         currentLevel = 1;
         score = 0;
-        SceneManager.LoadScene("Login  Scene");
+        SceneManager.LoadScene("Login Scene");
     }
 
     public void UpdateGameProgress(int newLevel, int newScore)
